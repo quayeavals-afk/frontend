@@ -1,0 +1,229 @@
+* {padding: 0;margin: 0;border: 0;}
+*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+:focus,:active{outline: none;}
+a:focus, a:active {outline: none;}
+nav, footer, header, aside {display: block;}
+html, body {height: 100%;width: 100%;font-size: 100%;line-height: 1;font-size: 14px;
+    -ms-text-size-adjust: 100%;-moz-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;}
+input, button, textarea {font-family: inherit;}
+input::-ms-clear {display: none;}
+button {cursor: pointer;}
+button::-moz-focus-inner {padding: 0;border: 0;}
+a, a:visited {text-decoration: none;}
+a:hover {text-decoration: none;}
+ul li {list-style: none;}
+img {vertical-align: top;}
+h1, h2, h3, h4, h5, h6 {font-size: inherit;font-weight: inherit; margin: 0;}
+/*---------------------*/
+
+
+/*комит 1*/
+
+body {
+    font-size: 50px;
+    margin: 0;
+    background-color: #282928;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.header {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    z-index: 2;
+}
+
+.header > div {
+	display: flex;
+    padding: 10px 20px;
+    flex-grow: 1; /* Оба элемента растягиваются одинаково */
+}
+.header > div *{
+    padding: 0 20px;
+}
+
+.header__left {
+    background-color: #347034;
+}
+
+.header__right {
+	 justify-content: flex-end;
+    background-color: rgb(145, 39, 39);
+}
+.header__right .chats__button, .login__button, .header__left button, .chats__window .chats__info button{
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+}
+.header__left button{
+    background-image: url("img/menu.svg");
+}
+
+.header__right .chats__button{
+    background-image: url("img/chat.svg");
+    
+}
+.header__right .login__button{
+    background-image: url("img/person.svg");
+}
+
+
+
+
+
+
+
+.menu #sidebar{
+    padding-top: 70px;
+    border:2px solid #2196F3;
+    background-color: #282928;
+    border-radius:10px;
+    display: block;
+    position: fixed;
+    list-style: none;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100%;
+    top: 30px;
+    left: -100%;
+    width:400px;
+    transition:left 0.3s;
+}
+.menu #sidebar .nav li a img{
+    padding-top: 15px;
+    width: 50px;
+    height: 50px;
+}
+.menu #sidebar .nav li *{
+    color: rgb(176, 176, 176);
+    display: flex;
+    margin-left: 10px;
+}
+
+.menu #sidebar .nav li p::before{
+    margin-top: 16px;
+    content: '';
+  width: .5em;
+  height: .5em;
+  border-radius: 1em;
+  background-color: rgb(176, 176, 176);
+  margin-right: .5em;
+}
+.menu #sidebar .nav .commercial{
+    margin-top: 100%;
+    color: #347034;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.chats__window{
+    display: none;
+
+}
+.chats__window {
+    right: 390px;
+    z-index: 10;
+    background-color: #e61616;
+    width: 280px;
+    height: 80px;
+    display: none;
+    position: fixed;
+}
+
+.chats__window .chats{
+    right: 390px;
+    display: block;
+    position: fixed;
+    background-color: #0004ff;
+    top: 80px;
+    width: 280px;
+    height: 200px;
+    z-index: 9;    
+}
+.header .header__right .chats__button{
+    position: fixed;
+    z-index: 12;
+    right: 390px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.blocks{
+    margin-top: 1;
+    padding: 130px 50px 0;
+}
+.blocks > div{
+    margin-bottom: 40px;
+    background-color: #fff;
+    display: flex;
+}
+.blocks__up ul, .blocks__down ul {
+    margin: 0 80px;
+    background-color: red;
+    display: flex;
+    justify-content: space-between; /* ← Ключевое свойство */
+    padding: 0; /* Убираем отступы у ul */
+    list-style: none; /* Убираем маркеры списка */
+    width: 100%; /* Занимаем всю доступную ширину */
+}
+
+.blocks ul li {
+    display: flex;
+    padding: 30px;
+    margin: 5px 50px;
+    text-align: center;
+    flex: 1; /* Каждый li занимает равную часть пространства */
+    background-color: green;
+    border-radius: 20%;
+}
+.blocks ul li a{
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    background-color: #fff;
+}
+.blocks ul li img{
+    width: 200px;
+    height: 200px;
+}
+    

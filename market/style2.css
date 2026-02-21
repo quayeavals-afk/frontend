@@ -1,0 +1,85 @@
+/* Центрирование формы */
+.add__window {
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+    white-space: nowrap; /* запрет переноса */
+    width: 800px;
+    margin: 0 auto;
+}
+
+.add__window .form-inner {
+    background: white;
+    margin-top: 100px;
+    padding: 30px;
+    border: 1px solid #ddd;
+}
+
+/* Поля ввода */
+.add__window .form-inner input[type="text"],
+.add__window .form-inner textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    display: block;
+}
+
+
+.add__window .form-inner textarea {
+    height: 100px;
+}
+
+/* Заголовки блоков */
+.add__window .box h2 {
+    text-align: center;
+    font-size: 18px;
+    margin: 0 0 10px 0;
+}
+
+/* Блоки с радио кнопками */
+.add__window .box {
+    border: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 65px;
+    text-align: none;
+}
+
+/* GRID - 4 элемента в строке */
+.add__window .box {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    margin-bottom: 25px;
+    gap: 5px;
+    align-items: center;
+}
+
+/* Заголовок на всю ширину */
+.add__window  h2 {
+    grid-column: 1 / -1;
+    margin-bottom: 5px;
+}
+
+/* Радио кнопки и текст */
+.add__window input[type="radio"] {
+    width: 25px;
+    height: 15px;
+    margin: 0 2px 0px 0;
+    justify-self: end;
+    background-color: #ce1515;
+}
+
+
+/* Кнопка */
+.add__window .add1 {
+    width: 100%;
+    padding: 10px;
+    background: #0066cc;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.add__window .add1:hover {
+    background: #004499;
+}

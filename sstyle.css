@@ -53,10 +53,9 @@ body {
 	display: flex;
     padding: 10px 20px;
     flex-grow: 1; /* Оба элемента растягиваются одинаково */
+
 }
-.header > div *{
-    padding: 0 20px;
-}
+
 
 .header__left {
     background-color: #347034;
@@ -77,10 +76,14 @@ body {
 
 .header__right .chats__button{
     background-image: url("img/chat.svg");
+    position: relative;
+    z-index: 11 ;
+    right: 180px;
     
 }
 .header__right .login__button{
     background-image: url("img/person.svg");
+
 }
 
 
@@ -144,41 +147,93 @@ body {
 
 
 
-.chats__window{
-    display: none;
 
+
+.header__right .chats__window .chats__info {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: auto;
+    z-index: 9;
+    max-width: 100%;
+    min-width: 100%;
+    padding: 13px 10px;
 }
+
 .chats__window {
     right: 390px;
     z-index: 10;
-    background-color: #e61616;
-    width: 280px;
-    height: 80px;
+    background-color: #1cb057;
+    width: auto;
+    height: auto;
     display: none;
     position: fixed;
+    top: -5px;
+    right: 418px;
+    margin: 0;
+    width: auto;
 }
 
-.chats__window .chats{
-    right: 390px;
-    display: block;
-    position: fixed;
+/* ИСПРАВЛЕННЫЙ СИНИЙ БЛОК */
+.chats__window .chats {
+    display: inline-block;  /* главное изменение */
     background-color: #0004ff;
-    top: 80px;
-    width: 280px;
-    height: 200px;
-    z-index: 9;    
-}
-.header .header__right .chats__button{
-    position: fixed;
-    z-index: 12;
-    right: 390px;
+    width: auto;            /* ширина по содержимому */
 }
 
+.chats__window .chats ul {
+    margin: 0;
+    padding: 0;
+}
 
+.chats__window .chats ul li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
 
+.chats__window .chats ul li a {
+    display: block;
+    padding: 10px 20px;     /* отступы внутри ссылки */
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;     /* текст в одну строку */
+}
+    
 
+.chats__window .chats ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
 
+.chats__window .chats ul li {
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+}
 
+/* Стили для ссылок внутри чатов */
+.chats__window .chats ul li a {
+    display: block;
+    padding: 12px 20px;    /* внутренние отступы для текста */
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    background-color: #0004ff;
+}
+
+.chats__window .chats ul li a:hover {
+    background-color: #3333ff;  /* чуть светлее при наведении */
+}
+
+/* Разделители между чатами (опционально) */
+.chats__window .chats ul li:not(:last-child) a {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
 
 
 
@@ -226,4 +281,3 @@ body {
     width: 200px;
     height: 200px;
 }
-    

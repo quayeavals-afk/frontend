@@ -5,7 +5,7 @@ $user_id = $_GET['user_id'] ?? 0;
 
 
 $dbc = mysqli_connect('localhost', 'root', '', 'market');
-$query = "SELECT * FROM chats Where buyer_id  = $user_id or seller_id = $user_id";
+$query = "SELECT * FROM chats Where ((buyer_id  = $user_id and seller_id != $user_id) or (buyer_id  != $user_id and seller_id = $user_id) )";
 $result = mysqli_query($dbc, $query);
 
 

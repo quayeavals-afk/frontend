@@ -19,7 +19,7 @@ async function getAds() {
     // СОЗДАЕМ ССЫЛКУ-ОБЕРТКУ
     let link = document.createElement("a");
     link.href = `ad.php?id=${ad.id}`;  // ← id из базы данных
-    link.target = "_self ";            // ← открывать в новой вкладке (можно изменить на "_blank", если хочешь открывать в новой вкладке)
+    link.target = "_self";            // ← открывать в новой вкладке (можно изменить на "_blank", если хочешь открывать в новой вкладке)
     link.style.textDecoration = "none";
     link.style.color = "inherit";
     link.style.display = "block";      // ← чтобы ссылка занимала весь блок

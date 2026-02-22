@@ -14,7 +14,7 @@ $current_user_id = getUserId(); // id покупателя
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEFUchota </title>
-    <link rel="stylesheet" href="1style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="header">
@@ -45,6 +45,7 @@ $current_user_id = getUserId(); // id покупателя
             ul.innerHTML = ''; // ← очистка
             
             data.forEach(message => {
+                
                 console.log(message);
                 let link = document.createElement("a");
                 link.target = "_self";
@@ -56,18 +57,16 @@ $current_user_id = getUserId(); // id покупателя
                 
                 if (message.buyer_id == <?php echo $current_user_id; ?>) {
                     console.log(message['ad_id'], 'ns - покупатель');
-                    link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}`;
-                    link.textContent = `чат: ${message['id']}`;
+                    link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}&chat_id=${message['id']}`;
+                    link.textContent = `чат обяв.: ${message['ad_id']}`;
                 } else {
                     console.log(message['ad_id'], 'ns - продавец');
-                    link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}`;
-                    link.textContent = `чат: ${message['id']}`;
+                    link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}&chat_id=${message['id']}`;
+                    link.textContent = `чат обяв.: ${message['ad_id']}`;
                 }
                 ul.append(link);
             });
         }, 1000);
-        
-
         </script>
 
 
@@ -255,6 +254,6 @@ $current_user_id = getUserId(); // id покупателя
     
 </body>
 <script src="script.js"></script>
-<script src="add.js"></script>
+<script src="addd.js"></script>
 
 </html>

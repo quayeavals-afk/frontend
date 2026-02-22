@@ -513,11 +513,10 @@ body .ad-detail{
     position: relative;
     padding-top: 80px;
 }
-body .ad-detail{
 
-}
 body .ad-detail .back-button{
     display: block;
+    width: 250px;
 }
 body .ad-detail img{
     margin: 10px;
@@ -555,7 +554,7 @@ body .ad-detail img{
 /* Шапка */
 .chat-header {
     background-color: #fff;
-    padding: 15px 20px;
+    padding: 10px 10px;
     border-bottom: 1px solid #e0e0e0;
     display: flex;
     justify-content: space-between;
@@ -591,14 +590,22 @@ body .ad-detail img{
     max-width: 70%;
     padding: 8px 12px;
     border-radius: 10px;
-    background: #fff;
+    background: #ffffff;
+    word-wrap: break-word;        /* Переносит длинные слова */
+    overflow-wrap: break-word;    /* Современный аналог word-wrap */
+    white-space: normal;          /* Разрешает перенос текста */
+    max-width: 1600px;             /* Ограничение ширины в пикселях */
 }
 
 .message.sent .message-content {
     background: #347034;
     color: white;
 }
-
+.message-time {
+    font-size: 32px;
+    color: #c0c0c0;
+    margin-top: 2px;
+}
 /* Форма отправки */
 .message-form {
     background: #fff;
@@ -615,6 +622,7 @@ body .ad-detail img{
     flex: 1;
     padding: 8px;
     border: 1px solid #ddd;
+    font-size: 26px;
 }
 
 .send-button {
@@ -624,9 +632,24 @@ body .ad-detail img{
     border: none;
     cursor: pointer;
 }
-.messenger .chat-header .chat-info .chat-avatar{
-    max-width: 200px;
-    max-height: 200px;
-    min-width: 80px;
-    min-height: 80px;
+.messenger .chat-header .chat-info .chat-avatar {
+    max-width: 150px;
+    max-height: 150px;
+    width: auto;
+    height: auto;
+    border: #cacaca 1px solid;
+    border-radius: 8px;
+}
+.messenger .chat-header .chat-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: calc(100% - 200px); /* Учитываем ширину кнопки "Назад" */
+    color: #000;
+}
+.chat-header .back-button{
+    background-color: #361515;
+    width: 200px;
+    height: 100%;
+    
 }

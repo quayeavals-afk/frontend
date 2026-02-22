@@ -1,4 +1,5 @@
 <?php
+header('ngrok-skip-browser-warning: true');
 // ПЕРВАЯ строка в файле
 require_once '../session_start.php';
 $username = getUsername();
@@ -29,12 +30,16 @@ if (!$ad) {
 
 
 
-
-
-////////////////////////////////////////////////////////////////
-
-
-
+// ПРОВЕРКА: можно ли писать
+if (!$current_user_id) {
+    $can_message = false;
+    $message_error = "Войдите, чтобы написать продавцу";
+} elseif ($current_user_id == $seller_id) {
+    $can_message = false;
+    $message_error = "Это ваше объявление";
+} else {
+    $can_message = true;
+}
 
 
 
@@ -54,7 +59,7 @@ if (!$ad) {
     <header class="header">
         <div class="header__left">
             <button class="more__button" id="more__button"></button>
-            <p class="had__name">FEFUchota</p>
+            <p class="had__name">FEFUchota </p>
         </div>
 
         <div class="header__right">
@@ -65,10 +70,8 @@ if (!$ad) {
                 </div>
                 <div class="chats">
                     <ul>
-                        <li class="#">123</li>
-                        <li class="#">123</li>
-                        <li class="#">123</li>
-                        <li class="#">123</li>
+                        <li class="#">загрузка</li>
+
                     </ul>
                 </div>
             </section>
@@ -112,29 +115,82 @@ if (!$ad) {
         </div>
     </section>
     <!-- Основное содержание -->
-    <div class="ad-detail">
-        <a href="javascript:history.back()" class="back-button">← Назад</a>
-        
-        <img src="<?php echo htmlspecialchars($ad['img']); ?>" alt="<?php echo htmlspecialchars($ad['name']); ?>">
-        
-        <h1> название: <?php echo htmlspecialchars($ad['name']); ?></h1>
-        
-        <div class="price">Цена: <?php echo htmlspecialchars($ad['price']); ?>р</div>
-        
-        <div class="description">
-            <strong>Описание:</strong><br>
-            <?php echo nl2br(htmlspecialchars($ad['description'])); ?>
+        <div class="ad-detail">
+            <a href="#" onclick="history.back(); return false;" class="back-button">← Назад</a>
+            
+            <img src="<?php echo htmlspecialchars($ad['img']); ?>" alt="<?php echo htmlspecialchars($ad['name']); ?>">
+            
+            <h1> название: <?php echo htmlspecialchars($ad['name']); ?></h1>
+            
+            <div class="price">Цена: <?php echo htmlspecialchars($ad['price']); ?>р</div>
+            
+            <div class="description">
+                <strong>Описание:</strong><br>
+                <?php echo nl2br(htmlspecialchars($ad['description'])); ?>
+            </div>
+            
+            <div class="meta">
+                <p><strong>Местоположение:</strong> <?php echo htmlspecialchars($ad['tags']); ?></p>
+                <p><strong>Период:</strong> <?php echo htmlspecialchars($ad['period']); ?></p>
+                <p><strong>Доставка:</strong> <?php echo htmlspecialchars($ad['delivery']); ?></p>
+                <p><strong>Дата публикации:</strong> <?php echo date('d.m.Y', strtotime($ad['date'])); ?></p>
+            </div>
+            
+            <?php if ($can_message): ?>
+                <a href="get_or_create_chat.php?ad_id=<?php echo urlencode($ad['id']); ?>" class="cand">написать</a>
+            <?php else: ?>
+                <button class="cand disabled" disabled><?php echo $message_error; ?></button>
+            <?php endif; ?>
         </div>
-        
-        <div class="meta">
-            <p><strong>Местоположение:</strong> <?php echo htmlspecialchars($ad['tags']); ?></p>
-            <p><strong>Период:</strong> <?php echo htmlspecialchars($ad['period']); ?></p>
-            <p><strong>Доставка:</strong> <?php echo htmlspecialchars($ad['delivery']); ?></p>
-            <p><strong>Дата публикации:</strong> <?php echo date('d.m.Y', strtotime($ad['date'])); ?></p>
-        </div>
+    <script>
+        // Каждую секунду отправляем user_id и получаем ответ
+        setInterval(async () => {
+            const response = await fetch(`notification.php?user_id=<?php echo $current_user_id; ?>`);
+            const data = await response.json();
 
-        <a href="get_or_create_chat.php?ad_id=<?php echo urlencode($ad['id']); ?>" class="cand">написать</a>
-    </div>
+            const button = document.querySelector('.header .header__right .chats__button');
+            if (data.length > 0) {
+                button.setAttribute('data-count', data.length);
+                button.classList.remove('hide-badge');
+            } else {
+                button.classList.add('hide-badge');
+            }
+            
+            // ОЧИЩАЕМ ul перед добавлением новых элементов
+            const ul = document.querySelector('.header .header__right .chats__window .chats ul');
+            ul.innerHTML = ''; // ← очистка
+            
+            data.forEach(message => {
+                
+                console.log(message);
+                let link = document.createElement("a");
+                link.target = "_self";
+                link.style.textDecoration = "none";
+                link.style.color = "inherit";
+                link.style.display = "block";
+                link.style.height = "100%";
+                link.style.width = "100%";
+                
+                if (message.buyer_id == <?php echo $current_user_id; ?>) {
+                    console.log(message['ad_id'], 'ns - покупатель');
+                    link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}&chat_id=${message['id']}`;
+                    link.textContent = `чат обяв.: ${message['ad_id']}`;
+                } else {
+                    console.log(message['ad_id'], 'ns - продавец');
+                    link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}&chat_id=${message['id']}`;
+                    link.textContent = `чат обяв.: ${message['ad_id']}`;
+                }
+                ul.append(link);
+            });
+        }, 1000);
+        </script>
+<script>
+console.log('CSS loaded:', document.styleSheets.length);
+// Проверим, виден ли блок
+const detail = document.querySelector('.ad-detail');
+console.log('ad-detail:', detail);
+console.log('ad-detail styles:', window.getComputedStyle(detail));
+</script>
 </body>
 <script src="script.js"></script>
 </html>

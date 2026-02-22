@@ -21,6 +21,7 @@ if ($result && mysqli_num_rows($result) > 0) { //
     $seller_name = $ad['username']; // имя продавца
     $title = $ad['name']; // название товара
     $img = $ad['img']; // изображение товара
+
 } 
 
 
@@ -99,14 +100,14 @@ if ($result && mysqli_num_rows($result) > 0) { //
     <section class="messenger">
         <!-- Шапка чата с информацией о собеседнике и товаре -->
         <div class="chat-header">
-            <div class="chat-info">
+            <a href="ad.php?id=<?php echo htmlspecialchars($id); ?>" class="chat-info">
                 <img src="<?php echo htmlspecialchars($img);?>" alt="avatar" class="chat-avatar">
                 <div class="chat-details">
                     <h2 class="chat-name"><?php echo htmlspecialchars($seller_name);?></h2>
                     <p class="chat-product">Объявление: <?php echo htmlspecialchars($title);?></p>
                 </div>
-            </div>
-            <a href="javascript:history.back()" class="back-button">← Назад</a>
+            </a>
+            <a href="#" onclick="history.back(); return false;" class="back-button">← Назад</a>
         </div>
 
 
@@ -122,18 +123,7 @@ if ($result && mysqli_num_rows($result) > 0) { //
 
         <!-- Область сообщений -->
         <div class="messages-container" id="messagesContainer">
-        <script>
-            // Функция загрузки сообщений
-            function loadMessages() {
-                fetch(`get_messages.php?chat_id=<?php echo $chat_id; ?>&user_id=<?php echo $current_user_id; ?>`)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.getElementById('messagesContainer').innerHTML = html;
-                    });
-            }
-            loadMessages();
-            setInterval(loadMessages, 1000);
-        </script>
+        
 
             <!-- Сообщения будут загружаться сюда -->
         </div>
@@ -152,43 +142,150 @@ if ($result && mysqli_num_rows($result) > 0) { //
                 <button class="send-button" type="button" id="sendButton" onclick="sendMessage()">
                     ➤
                 </button>
-                <script>
-                    async function sendMessage() {
-                        const messageInput = document.getElementById('messageInput');
-                        const messageText = messageInput.value.trim();
-                        if (!messageText) return; // не отправляем пустые
-                        
-                        messageInput.value = '';
-
-                        const message = {
-                            chat_id: <?php echo json_encode($chat_id); ?>,
-                            sender_id: <?php echo json_encode($current_user_id); ?>,
-                            message_text: messageText,
-                            sent_at: new Date().toISOString(),
-                            is_read: 0
-                        };
-                        console.log('Отправляем сообщение:', message);
-                        
-                        const result = await sendForm(message);
-                        console.log('Ответ сервера:', result);
-                    }
-                    
-                    async function sendForm(message) { 
-                        const response = await fetch('./send_message.php', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json'},
-                            body: JSON.stringify(message)
-                        });
-                        
-                        const result = await response.json(); // добавил получение ответа
-                        return result;
-                    }
-                </script>
             </div>
         </div>
     </section>
+
+
+
+
+
+    
+        <script>
+        async function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const messageText = messageInput.value.trim();
+            if (!messageText) return; // не отправляем пустые
+            
+            messageInput.value = '';
+
+            const message = {
+                chat_id: <?php echo json_encode($chat_id); ?>,
+                sender_id: <?php echo json_encode($current_user_id); ?>,
+                message_text: messageText,
+                sent_at: new Date().toISOString(),
+                is_read: 0
+            };
+            console.log('Отправляем сообщение:', message);
+            
+            const result = await sendForm(message);
+            console.log('Ответ сервера:', result);
+        }
+        
+        async function sendForm(message) { 
+            const response = await fetch('./send_message.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(message)
+            });
+            
+            const result = await response.json(); // добавил получение ответа
+            return result;
+        }
+    </script>
+
+<script>
+    // Функция для прокрутки вниз
+    function scrollToBottom() {
+        var container = document.getElementById('messagesContainer');
+        container.scrollTop = container.scrollHeight;
+    }
+
+    // Функция загрузки сообщений
+    function loadMessages() {
+        fetch(`get_messages.php?chat_id=<?php echo $chat_id; ?>&user_id=<?php echo $current_user_id; ?>`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('messagesContainer').innerHTML = html;
+            });
+    }
+    
+    // Загружаем сообщения и прокручиваем вниз при загрузке страницы
+    loadMessages();
+    
+    // Прокручиваем вниз после загрузки страницы
+    setTimeout(scrollToBottom, 100); // Небольшая задержка для полной загрузки
+    
+    // Каждую секунду обновляем сообщения, НО БЕЗ ПРОКРУТКИ
+    setInterval(loadMessages, 1000);
+</script>
+
+<script>
+    async function sendMessage() {
+        const messageInput = document.getElementById('messageInput');
+        const messageText = messageInput.value.trim();
+        if (!messageText) return;
+        
+        messageInput.value = '';
+
+        const message = {
+            chat_id: <?php echo json_encode($chat_id); ?>,
+            sender_id: <?php echo json_encode($current_user_id); ?>,
+            message_text: messageText,
+            sent_at: new Date().toISOString(),
+            is_read: 0
+        };
+        console.log('Отправляем сообщение:', message);
+        
+        const result = await sendForm(message);
+        console.log('Ответ сервера:', result);
+        
+        // Прокручиваем вниз после отправки сообщения
+        setTimeout(scrollToBottom, 800);
+    }
+</script>
+    <script>
+    document.getElementById('messageInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // предотвращает возможную отправку формы
+            sendMessage();
+        }
+    });
+    </script>
+    <script>
+        // Каждую секунду отправляем user_id и получаем ответ
+        setInterval(async () => {
+            const response = await fetch(`notification.php?user_id=<?php echo $current_user_id; ?>`);
+            const data = await response.json();
+
+            const button = document.querySelector('.header .header__right .chats__button');
+            if (data.length > 0) {
+                button.setAttribute('data-count', data.length);
+                button.classList.remove('hide-badge');
+            } else {
+                button.classList.add('hide-badge');
+            }
+            
+            // ОЧИЩАЕМ ul перед добавлением новых элементов
+            const ul = document.querySelector('.header .header__right .chats__window .chats ul');
+            ul.innerHTML = ''; // ← очистка
+            
+            data.forEach(message => {
+                
+                console.log(message);
+                let link = document.createElement("a");
+                link.target = "_self";
+                link.style.textDecoration = "none";
+                link.style.color = "inherit";
+                link.style.display = "block";
+                link.style.height = "100%";
+                link.style.width = "100%";
+                
+                if (message.buyer_id == <?php echo $current_user_id; ?>) {
+                    console.log(message['ad_id'], 'ns - покупатель');
+                    link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}&chat_id=${message['id']}`;
+                    link.textContent = `чат обяв.: ${message['ad_id']}`;
+                } else {
+                    console.log(message['ad_id'], 'ns - продавец');
+                    link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}&chat_id=${message['id']}`;
+                    link.textContent = `чат обяв.: ${message['ad_id']}`;
+                }
+                ul.append(link);
+            });
+        }, 1000);
+        </script>
 </body>
 <script src="script.js"></script>
-<script src="messages.js"></script>
+
 
 </html>

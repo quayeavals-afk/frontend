@@ -509,16 +509,16 @@ body {
     flex-shrink: 0;
 }
 
-body .ad-detail{
+body .ad_detail{
     position: relative;
     padding-top: 80px;
 }
 
-body .ad-detail .back-button{
+body .ad_detail .back-button{
     display: block;
     width: 250px;
 }
-body .ad-detail img{
+body .ad_detail img{
     margin: 10px;
     box-shadow: #000000 3px 3px 20px;
     margin-bottom: 100px;
@@ -526,7 +526,14 @@ body .ad-detail img{
     max-height: 700px;
     max-width: 1000px;
 }
-
+body .ad_detail .cand {
+    font-size: 100px;
+    color: #00ffa6;
+}
+body .ad_detail .disabled {
+    color: #b2b1b1;
+    background-color: #282928;
+}
 
 
 
@@ -652,4 +659,4 @@ body .ad-detail img{
     width: 200px;
     height: 100%;
     
-}
+}   

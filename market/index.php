@@ -14,7 +14,7 @@ $current_user_id = getUserId(); // id покупателя
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEFUchota </title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="1style.css">
 </head>
 <body>
     <header class="header">
@@ -26,52 +26,13 @@ $current_user_id = getUserId(); // id покупателя
 
 
 
-        <script>
-        // Каждую секунду отправляем user_id и получаем ответ
-        setInterval(async () => {
-            const response = await fetch(`notification.php?user_id=<?php echo $current_user_id; ?>`);
-            const data = await response.json();
 
-            const button = document.querySelector('.header .header__right .chats__button');
-            if (data.length > 0) {
-                button.setAttribute('data-count', data.length);
-                button.classList.remove('hide-badge');
-            } else {
-                button.classList.add('hide-badge');
-            }
-            
-            // ОЧИЩАЕМ ul перед добавлением новых элементов
-            const ul = document.querySelector('.header .header__right .chats__window .chats ul');
-            ul.innerHTML = ''; // ← очистка
-            
-            data.forEach(message => {
-                
-                console.log(message);
-                let link = document.createElement("a");
-                link.target = "_self";
-                link.style.textDecoration = "none";
-                link.style.color = "inherit";
-                link.style.display = "block";
-                link.style.height = "100%";
-                link.style.width = "100%";
-                
-                if (message.buyer_id == <?php echo $current_user_id; ?>) {
-                    console.log(message['ad_id'], 'ns - покупатель');
-                    link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}&chat_id=${message['id']}`;
-                    link.textContent = `чат обяв.: ${message['ad_id']}`;
-                } else {
-                    console.log(message['ad_id'], 'ns - продавец');
-                    link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}&chat_id=${message['id']}`;
-                    link.textContent = `чат обяв.: ${message['ad_id']}`;
-                }
-                ul.append(link);
-            });
-        }, 1000);
-        </script>
 
 
         <div class="header__right">
-            <button class="chats__button"></button>
+            <?php if ($username): ?>
+                <button class="chats__button"></button>
+            <?php endif; ?>
             <section class="chats__window">
                 <div class="chats__info">
                     <p>Чаты</p>
@@ -218,9 +179,9 @@ $current_user_id = getUserId(); // id покупателя
                     <button class = "apply"> применить</button>
                 </div>
 
-                <input type="text"id="input__field__text"name="input__field__text"size="40"placeholder="ключевые слова"/>
-                <button class="button__sort"></button>
+                <input type="text" id="input__field__text" name="input__field__text" size="40" placeholder="ключевые слова"/>
 
+                <button class="button__sort"></button>
                 <div class="sort__box" >
                     <h2 class="sort__name"> сортировка</h2>
                     <button class="sort-new">сначала новые</button>
@@ -251,9 +212,45 @@ $current_user_id = getUserId(); // id покупателя
     <footer>
         <p>рекламо</p>
     </footer>
-    
+        <script>
+    // Каждую секунду отправляем user_id и получаем ответ
+    setInterval(async () => {
+        const response = await fetch(`notification.php?user_id=<?php echo $current_user_id; ?>`);
+        const data = await response.json();
+
+        const button = document.querySelector('.header .header__right .chats__button');
+        if (data.length > 0) {
+            button.setAttribute('data-count', data.length);
+            button.classList.remove('hide-badge');
+        } else {
+            button.classList.add('hide-badge');
+        }
+        
+        const ul = document.querySelector('.header .header__right .chats__window .chats ul');
+        ul.innerHTML = ''; // ← очистка
+        
+        data.forEach(message => {
+            let link = document.createElement("a");
+            link.target = "_self";
+            link.style.textDecoration = "none";
+            link.style.color = "inherit";
+            link.style.display = "block";
+            link.style.height = "100%";
+            link.style.width = "100%";
+            
+            if (message.buyer_id == <?php echo $current_user_id; ?>) {
+                link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}&chat_id=${message['id']}`;
+                link.textContent = `чат обяв.: ${message['ad_id']}`;
+            } else {
+                link.href = `get_or_create_chat.php?ad_id=${message['ad_id']}&chat_id=${message['id']}`;
+                link.textContent = `чат обяв.: ${message['ad_id']}`;
+            }
+            ul.append(link);
+        });
+    }, 1000);
+    </script>
 </body>
 <script src="script.js"></script>
-<script src="addd.js"></script>
+<script src="add.js"></script>
 
 </html>

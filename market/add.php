@@ -11,7 +11,7 @@ $username = getUsername();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEFUchota</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="1style.css">
     <link rel="stylesheet" href="style2.css">
 </head>
 <body>
@@ -22,7 +22,9 @@ $username = getUsername();
         </div>
 
         <div class="header__right">
-            <button class="chats__button"></button>
+            <?php if ($username): ?>
+                <button class="chats__button"></button>
+            <?php endif; ?>
             <section class="chats__window">
                 <div class="chats__info">
                     <p>Чаты</p>

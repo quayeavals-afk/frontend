@@ -19,20 +19,7 @@ $username = getUsername();
         </div>
 
         <div class="header__right">
-            <button class="chats__button"></button>
-            <section class="chats__window">
-                <div class="chats__info">
-                    <p>Чаты</p>
-                </div>
-                <div class="chats">
-                    <ul>
-                        <li class="#">123</li>
-                        <li class="#">123</li>
-                        <li class="#">123</li>
-                        <li class="#">123</li>
-                    </ul>
-                </div>
-            </section>
+            
             
             <!-- Имя пользователя -->
             <p class="your__login">

@@ -212,6 +212,7 @@ body {
 
 .header .header__right .chats__button.hide-badge::after {
     display: none;
+    background-color: none;
 }
 
 

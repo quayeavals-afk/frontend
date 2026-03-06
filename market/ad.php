@@ -107,6 +107,7 @@ if (!$current_user_id) {
                     <li><a href="#"> <p>соседи</p> <img src="../img/house.svg"/> </a></li>
                     <li><a href="#">  <p>доставка</p> <img src="../img/basket-shopping-simple.svg"/> </a></li>
                     <li><a href="#"> <p>попутчики</p> <img src="../img/car.svg"/> </a></li>
+                    <li><a href="../chats/index.php"> <p>все чаты</p> <img src="../img/car.svg"/> </a></li>
                     <div class="commercial">рекламо</div>
                 </ul>
             </div>
